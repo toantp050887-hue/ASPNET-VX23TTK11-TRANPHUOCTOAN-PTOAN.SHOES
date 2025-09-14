@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ProductLatestVM>
+
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+    @foreach (var item in Model)
+    {
+        <div class="col">
+            <div class="card h-100">
+                <img class="card-img-top"
+                     src="@Url.Content(item.MainImage ?? "~/Content/images/no-image.png")"
+                     alt="@item.Name" />
+
+                <div class="card-body">
+                    <h3 class="h6 card-title mb-1">@item.Name</h3>
+
+                    @if (item.DiscountPrice.HasValue && item.DiscountPrice > 0)
+                    {
+                        <div class="text-danger fw-bold">
+                            @String.Format("{0:0,0} ₫", item.DiscountPrice)
+                        </div>
+                        <small class="text-muted text-decoration-line-through">
+                            @String.Format("{0:0,0} ₫", item.Price)
+                        </small>
+                    }
+                    else
+                    {
+                        <div>@String.Format("{0:0,0} ₫", item.Price)</div>
+                    }
+
+                    <a class="btn btn-outline-primary btn-sm mt-2"
+                       href="@Url.Action("Details", "Products", new { id = item.Id })">
+                        Xem chi tiết
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

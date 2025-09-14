@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Shop_PhuocToanModelStoreContainer" CdmEntityContainer="Shop_PhuocToanEntities">
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="Shop_PhuocToanModel.Categories">
+        <MappingFragment StoreEntitySet="Categories">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Slug" ColumnName="Slug" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderDetails">
+      <EntityTypeMapping TypeName="Shop_PhuocToanModel.OrderDetails">
+        <MappingFragment StoreEntitySet="OrderDetails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="Shop_PhuocToanModel.Orders">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Language" ColumnName="Language" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductAttributes">
+      <EntityTypeMapping TypeName="Shop_PhuocToanModel.ProductAttributes">
+        <MappingFragment StoreEntitySet="ProductAttributes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AttributeName" ColumnName="AttributeName" />
+          <ScalarProperty Name="AttributeValue" ColumnName="AttributeValue" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductImages">
+      <EntityTypeMapping TypeName="Shop_PhuocToanModel.ProductImages">
+        <MappingFragment StoreEntitySet="ProductImages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+          <ScalarProperty Name="IsMain" ColumnName="IsMain" />
+          <ScalarProperty Name="AltText" ColumnName="AltText" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="Shop_PhuocToanModel.Products">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Slug" ColumnName="Slug" />
+          <ScalarProperty Name="OriginalPrice" ColumnName="OriginalPrice" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="IsContact" ColumnName="IsContact" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductStatus">
+      <EntityTypeMapping TypeName="Shop_PhuocToanModel.ProductStatus">
+        <MappingFragment StoreEntitySet="ProductStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Staff">
+      <EntityTypeMapping TypeName="Shop_PhuocToanModel.Staff">
+        <MappingFragment StoreEntitySet="Staff">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+          <ScalarProperty Name="GuidId" ColumnName="GuidId" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="UnitCode" ColumnName="UnitCode" />
+          <ScalarProperty Name="UnitName" ColumnName="UnitName" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Activated" ColumnName="Activated" />
+          <ScalarProperty Name="ActiveBy" ColumnName="ActiveBy" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+          <ScalarProperty Name="PermissionType" ColumnName="PermissionType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="Shop_PhuocToanModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_Categories_CreatedBy" TypeName="Shop_PhuocToanModel.FK_Categories_CreatedBy" StoreEntitySet="Categories">
+      <EndProperty Name="Staff">
+        <ScalarProperty Name="Id" ColumnName="CreatedBy" />
+      </EndProperty>
+      <EndProperty Name="Categories">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition IsNull="false" ColumnName="CreatedBy" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Categories_Parent" TypeName="Shop_PhuocToanModel.FK_Categories_Parent" StoreEntitySet="Categories">
+      <EndProperty Name="Categories">
+        <ScalarProperty Name="Id" ColumnName="ParentId" />
+      </EndProperty>
+      <EndProperty Name="Categories1">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition IsNull="false" ColumnName="ParentId" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Categories_UpdatedBy" TypeName="Shop_PhuocToanModel.FK_Categories_UpdatedBy" StoreEntitySet="Categories">
+      <EndProperty Name="Staff">
+        <ScalarProperty Name="Id" ColumnName="UpdatedBy" />
+      </EndProperty>
+      <EndProperty Name="Categories">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition IsNull="false" ColumnName="UpdatedBy" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Products_Categories" TypeName="Shop_PhuocToanModel.FK_Products_Categories" StoreEntitySet="Products">
+      <EndProperty Name="Categories">
+        <ScalarProperty Name="Id" ColumnName="CategoryId" />
+      </EndProperty>
+      <EndProperty Name="Products">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition IsNull="false" ColumnName="CategoryId" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_OrderDetails_Orders" TypeName="Shop_PhuocToanModel.FK_OrderDetails_Orders" StoreEntitySet="OrderDetails">
+      <EndProperty Name="Orders">
+        <ScalarProperty Name="Id" ColumnName="OrderId" />
+      </EndProperty>
+      <EndProperty Name="OrderDetails">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_OrderDetails_Products" TypeName="Shop_PhuocToanModel.FK_OrderDetails_Products" StoreEntitySet="OrderDetails">
+      <EndProperty Name="Products">
+        <ScalarProperty Name="Id" ColumnName="ProductId" />
+      </EndProperty>
+      <EndProperty Name="OrderDetails">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ProductAttributes_CreatedBy" TypeName="Shop_PhuocToanModel.FK_ProductAttributes_CreatedBy" StoreEntitySet="ProductAttributes">
+      <EndProperty Name="Staff">
+        <ScalarProperty Name="Id" ColumnName="CreatedBy" />
+      </EndProperty>
+      <EndProperty Name="ProductAttributes">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition IsNull="false" ColumnName="CreatedBy" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ProductAttributes_DeletedBy" TypeName="Shop_PhuocToanModel.FK_ProductAttributes_DeletedBy" StoreEntitySet="ProductAttributes">
+      <EndProperty Name="Staff">
+        <ScalarProperty Name="Id" ColumnName="DeletedBy" />
+      </EndProperty>
+      <EndProperty Name="ProductAttributes">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition IsNull="false" ColumnName="DeletedBy" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ProductAttributes_Products" TypeName="Shop_PhuocToanModel.FK_ProductAttributes_Products" StoreEntitySet="ProductAttributes">
+      <EndProperty Name="Products">
+        <ScalarProperty Name="Id" ColumnName="ProductId" />
+      </EndProperty>
+      <EndProperty Name="ProductAttributes">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ProductAttributes_UpdatedBy" TypeName="Shop_PhuocToanModel.FK_ProductAttributes_UpdatedBy" StoreEntitySet="ProductAttributes">
+      <EndProperty Name="Staff">
+        <ScalarProperty Name="Id" ColumnName="UpdatedBy" />
+      </EndProperty>
+      <EndProperty Name="ProductAttributes">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition IsNull="false" ColumnName="UpdatedBy" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ProductImages_CreatedBy" TypeName="Shop_PhuocToanModel.FK_ProductImages_CreatedBy" StoreEntitySet="ProductImages">
+      <EndProperty Name="Staff">
+        <ScalarProperty Name="Id" ColumnName="CreatedBy" />
+      </EndProperty>
+      <EndProperty Name="ProductImages">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition IsNull="false" ColumnName="CreatedBy" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ProductImages_DeletedBy" TypeName="Shop_PhuocToanModel.FK_ProductImages_DeletedBy" StoreEntitySet="ProductImages">
+      <EndProperty Name="Staff">
+        <ScalarProperty Name="Id" ColumnName="DeletedBy" />
+      </EndProperty>
+      <EndProperty Name="ProductImages">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition IsNull="false" ColumnName="DeletedBy" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ProductImages_Products" TypeName="Shop_PhuocToanModel.FK_ProductImages_Products" StoreEntitySet="ProductImages">
+      <EndProperty Name="Products">
+        <ScalarProperty Name="Id" ColumnName="ProductId" />
+      </EndProperty>
+      <EndProperty Name="ProductImages">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ProductImages_UpdatedBy" TypeName="Shop_PhuocToanModel.FK_ProductImages_UpdatedBy" StoreEntitySet="ProductImages">
+      <EndProperty Name="Staff">
+        <ScalarProperty Name="Id" ColumnName="UpdatedBy" />
+      </EndProperty>
+      <EndProperty Name="ProductImages">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition IsNull="false" ColumnName="UpdatedBy" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Products_CreatedBy" TypeName="Shop_PhuocToanModel.FK_Products_CreatedBy" StoreEntitySet="Products">
+      <EndProperty Name="Staff">
+        <ScalarProperty Name="Id" ColumnName="CreatedBy" />
+      </EndProperty>
+      <EndProperty Name="Products">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition IsNull="false" ColumnName="CreatedBy" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Products_DeletedBy" TypeName="Shop_PhuocToanModel.FK_Products_DeletedBy" StoreEntitySet="Products">
+      <EndProperty Name="Staff">
+        <ScalarProperty Name="Id" ColumnName="DeletedBy" />
+      </EndProperty>
+      <EndProperty Name="Products">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition IsNull="false" ColumnName="DeletedBy" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Products_ProductStatus" TypeName="Shop_PhuocToanModel.FK_Products_ProductStatus" StoreEntitySet="Products">
+      <EndProperty Name="ProductStatus">
+        <ScalarProperty Name="Id" ColumnName="Status" />
+      </EndProperty>
+      <EndProperty Name="Products">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Products_UpdatedBy" TypeName="Shop_PhuocToanModel.FK_Products_UpdatedBy" StoreEntitySet="Products">
+      <EndProperty Name="Staff">
+        <ScalarProperty Name="Id" ColumnName="UpdatedBy" />
+      </EndProperty>
+      <EndProperty Name="Products">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition IsNull="false" ColumnName="UpdatedBy" />
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

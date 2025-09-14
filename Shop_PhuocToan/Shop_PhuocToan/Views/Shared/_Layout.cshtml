@@ -1,0 +1,108 @@
+﻿@*
+    _Layout.cshtml — Bootstrap 5 + MVC5
+    Yêu cầu:
+    - Navbar logo website
+    - Menu lớn: Trang chủ, Sản phẩm, Admin
+    - Search box: keyword + danh mục (GET tới Products/Index)
+    - Khu vực hiển thị "Sản phẩm mới nhất" (gọi child action Products/Latest)
+*@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Shop Giày Dép</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        /* Tối giản một chút cho header */
+        .navbar-brand img {
+            height: 36px;
+            width: auto;
+        }
+
+        .search-bar select {
+            max-width: 220px;
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index","Home")" title="Trang chủ">
+                <img src="@Url.Content("~/Content/images/Logo-PhuocToan.png")" alt="Logo" style="height: 80px;"/>
+                <span class="ms-2 fw-semibold">Shop Giày Dép</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        @Html.ActionLink("Trang chủ", "Index", "Home", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Sản phẩm", "Index", "Products", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Admin", "Index", "Admin", null, new { @class = "nav-link" })
+                    </li>
+                </ul>
+
+                @using (Html.BeginForm("Index", "Products", FormMethod.Get, new { @class = "d-flex gap-2 search-bar" }))
+                {
+                    <input type="text"
+                           name="q"
+                           value="@Request["q"]"
+                           class="form-control"
+                           placeholder="Tìm theo từ khóa (ví dụ: Nike Air, sandal...)" />
+
+                    @*@Html.DropDownList(
+                        "categoryId",
+                        ViewBag.Categories as IEnumerable<SelectListItem> ?? new List<SelectListItem> {
+                            new SelectListItem { Text = "Tất cả danh mục", Value = "" }
+                        },
+                        new { @class = "form-select", @aria_label = "Danh mục sản phẩm" }
+                    )*@
+
+                    <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+                }
+            </div>
+        </div>
+    </nav>
+
+    <!-- NỘI DUNG TRANG CHỦ -->
+    <main class="container my-4">
+        @RenderBody()
+
+        @* Chỉ hiển thị ở Home/Index *@
+        @if (ViewContext.RouteData.Values["controller"].ToString() == "Home"
+           && ViewContext.RouteData.Values["action"].ToString() == "Index")
+        {
+            <section class="mt-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h2 class="h5 m-0">Sản phẩm mới nhất</h2>
+                    @Html.ActionLink("Xem tất cả", "Index", "Products", null, new { @class = "link-secondary" })
+                </div>
+
+                @Html.Action("Latest", "Products", new { take = 12 })
+            </section>
+        }
+
+        <hr class="my-4" />
+        <footer class="pb-4">
+            <p class="mb-0">&copy; @DateTime.Now.Year - Shop Giày Dép</p>
+        </footer>
+    </main>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,42 @@
+﻿@model Shop_PhuocToan.Areas.Admin.Models.LoginViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";  
+    ViewBag.Title = "Đăng nhập quản trị";
+}
+
+<div class="container" style="max-width:520px;">
+    <h1 class="h4 mt-4 mb-3 text-center">Đăng nhập quản trị</h1>
+
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { area = "Admin", @class = "card p-3 shadow-sm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.UserName, new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Tên đăng nhập" })
+            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Mật khẩu" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-check mb-3">
+            @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input", @id = "remember" })
+            <label class="form-check-label" for="remember">Ghi nhớ</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+    }
+
+    <form action="@Url.Action("Logout","Account", new { area = "Admin" })" method="post" class="d-none">
+        @Html.AntiForgeryToken()
+    </form>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

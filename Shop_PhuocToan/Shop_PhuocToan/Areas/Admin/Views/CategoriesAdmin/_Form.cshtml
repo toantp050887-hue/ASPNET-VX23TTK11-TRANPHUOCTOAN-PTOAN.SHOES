@@ -1,0 +1,45 @@
+﻿@model Shop_PhuocToan.Areas.Admin.Models.CategoryFormVM
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Code, "Mã", new { @class = "control-label col-md-2" })
+    <div class="col-md-6">
+        @Html.TextBoxFor(m => m.Code, new { @class = "form-control", maxlength = 50, autocomplete = "off" })
+        @Html.ValidationMessageFor(m => m.Code, "", new { @class = "text-danger" })
+        <p class="help-block">Tùy chọn (để trống nếu không dùng mã).</p>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Name, "Tên danh mục", new { @class = "control-label col-md-2" })
+    <div class="col-md-6">
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", maxlength = 255 })
+        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.Label("Danh mục cha", new { @class = "control-label col-md-2" })
+    <div class="col-md-6">
+        @Html.DropDownListFor(m => m.ParentId, (IEnumerable<SelectListItem>)Model.Parents, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ParentId, "", new { @class = "text-danger" })
+        <p class="help-block">Để trống nếu là danh mục cấp gốc.</p>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Slug, "Slug", new { @class = "control-label col-md-2" })
+    <div class="col-md-6">
+        @Html.TextBoxFor(m => m.Slug, new { @class = "form-control", maxlength = 512 })
+        @Html.ValidationMessageFor(m => m.Slug, "", new { @class = "text-danger" })
+        <p class="help-block">Để trống để hệ thống tự tạo từ tên. Chỉ chữ thường, số và dấu gạch ngang.</p>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.IsActive, "Kích hoạt", new { @class = "control-label col-md-2" })
+    <div class="col-md-6">
+        <div class="checkbox">
+            <label>@Html.CheckBoxFor(m => m.IsActive) Hiển thị danh mục</label>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Admin | Shop Phước Toàn</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        body {
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            min-height: calc(100vh - 56px); 
+            border-right: 1px solid #e9ecef;
+        }
+
+        .admin-brand {
+            font-weight: 600;
+            letter-spacing: .3px;
+        }
+
+        .nav-link.active {
+            font-weight: 600;
+        }
+
+        .sidebar-section-title {
+            font-size: .75rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            margin: 1rem .75rem .25rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand admin-brand" href="@Url.Action("Index","Dashboard", new { area="Admin" })">Admin Console</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav"
+                    aria-controls="topNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div id="topNav" class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","Home", new { area = "" })">Về trang người dùng</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <span class="text-light small">
+                        @((Session["AdminFullName"] ?? Session["AdminUserName"]) ?? "Administrator")
+                    </span>
+                    <form method="post" action="@Url.Action("Logout","Account", new { area="Admin" })" class="m-0">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-outline-light btn-sm">Đăng xuất</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-12 col-md-3 col-lg-2 p-0 admin-sidebar">
+                <div class="list-group list-group-flush rounded-0">
+                    <div class="sidebar-section-title">Quản trị</div>
+
+                    <a class="list-group-item list-group-item-action @((ViewContext.RouteData.Values["controller"]?.ToString()=="Products") ? "active" : "")"
+                       href="@Url.Action("Index","ProductsAdmin", new { area="Admin" })">
+                        Quản lý sản phẩm
+                    </a>
+
+                    <a class="list-group-item list-group-item-action @((ViewContext.RouteData.Values["controller"]?.ToString()=="Categories") ? "active" : "")"
+                       href="@Url.Action("Index","CategoriesAdmin", new { area="Admin" })">
+                        Quản lý danh mục
+                    </a>
+
+                    <a class="list-group-item list-group-item-action @((ViewContext.RouteData.Values["controller"]?.ToString()=="Orders") ? "active" : "")"
+                       href="@Url.Action("Index","Orders", new { area="Admin" })">
+                        Quản lý đơn hàng
+                    </a>
+                </div>
+            </aside>
+
+            <main class="col-12 col-md-9 col-lg-10 p-4">
+                @RenderSection("page_header", required: false)
+
+                @RenderBody()
+
+                <hr />
+                <footer class="text-muted small">
+                    &copy; @DateTime.Now.Year - Admin | Shop Phước Toàn
+                </footer>
+            </main>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

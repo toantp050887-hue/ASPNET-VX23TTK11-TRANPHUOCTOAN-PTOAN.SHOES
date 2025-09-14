@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Bảng điều khiển";
+}
+<div class="container">
+    <h1 class="h4 mt-4">Xin chào, @ViewBag.Admin</h1>
+    <p>Đây là khu vực quản trị.</p>
+    <form method="post" action="@Url.Action("Logout","Account", new { area = "Admin" })">
+        @Html.AntiForgeryToken()
+        <button class="btn btn-outline-danger btn-sm">Đăng xuất</button>
+    </form>
+</div>

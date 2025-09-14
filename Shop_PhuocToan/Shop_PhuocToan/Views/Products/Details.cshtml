@@ -1,0 +1,181 @@
+﻿@model ProductDetailVM
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav aria-label="breadcrumb" class="container my-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Trang chủ</a></li>
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("Index","Products", new { categoryId = Model.CategoryId })">
+                @(Model.CategoryName ?? "Sản phẩm")
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row g-4">
+        <div class="col-12 col-lg-6">
+            <div class="border rounded p-2">
+                <img id="mainImage" class="img-fluid w-100"
+                     src="@Url.Content(Model.MainImage ?? "~/Content/images/no-image.png")"
+                     alt="@Model.Name" />
+            </div>
+
+            @if (Model.Gallery != null && Model.Gallery.Length > 1)
+            {
+                <div class="row row-cols-5 g-2 mt-2">
+                    @foreach (var img in Model.Gallery)
+                    {
+                        <div class="col">
+                            <a href="javascript:void(0);" class="thumb-link" data-img="@Url.Content(img)">
+                                <img class="img-fluid border rounded" src="@Url.Content(img)" alt="@Model.Name" />
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <h1 class="h4">@Model.Name</h1>
+            <div class="text-muted mb-1">Mã SP: @Model.ProductCode</div>
+
+            <div class="mb-3">
+                @if (Model.DiscountPrice.HasValue && Model.DiscountPrice > 0)
+                {
+                    <div class="fs-4 text-danger fw-bold">@String.Format("{0:0,0} ₫", Model.DiscountPrice)</div>
+                    <div class="text-muted text-decoration-line-through">
+                        @String.Format("{0:0,0} ₫", Model.Price)
+                    </div>
+                }
+                else if (Model.Discount.HasValue && Model.Price.HasValue)
+                {
+                    <div class="fs-4 text-danger fw-bold">@String.Format("{0:0,0} ₫", Model.FinalPrice)</div>
+                    <div class="text-muted">
+                        Giá gốc: <span class="text-decoration-line-through">
+                            @String.Format("{0:0,0} ₫", Model.Price)
+                        </span>
+                        @@: (giảm @((int)(Model.Discount.Value * 100))%)
+                    </div>
+                }
+                else if (Model.FinalPrice.HasValue)
+                {
+                    <div class="fs-4 fw-semibold">@String.Format("{0:0,0} ₫", Model.FinalPrice)</div>
+                }
+                else
+                {
+                    <div class="fs-5 text-muted">Giá sẽ được cập nhật.</div>
+                }
+            </div>
+
+            @if (!Model.IsContact)
+            {
+                using (Html.BeginForm("AddToCart", "Products", FormMethod.Post, new { @class = "d-inline" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("id", Model.Id)
+
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <label for="qty" class="form-label m-0">Số lượng</label>
+                        <input id="qty" name="qty" type="number" value="1" min="1" class="form-control" style="max-width:100px;" />
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Thêm vào giỏ</button>
+                        <a class="btn btn-outline-secondary"
+                           href="@Url.Action("Index","Products")">Tiếp tục mua sắm</a>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    Sản phẩm yêu cầu liên hệ để báo giá hoặc tư vấn chi tiết.
+                </div>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-primary" href="@Url.Action("Contact","Home")">Liên hệ ngay</a>
+                    <a class="btn btn-outline-secondary" href="tel:0932170886">Gọi 0932 170 886</a>
+                </div>
+            }
+
+            @if (Model.Attributes != null && Model.Attributes.Any())
+            {
+                <div class="mt-4">
+                    <h2 class="h6">Thông tin chi tiết</h2>
+                    <dl class="row">
+                        @foreach (var a in Model.Attributes)
+                        {
+                            <dt class="col-sm-4">@a.Name</dt>
+                            <dd class="col-sm-8">@Html.Raw(a.Value)</dd>
+                        }
+                    </dl>
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Description))
+    {
+        <section class="mt-4">
+            <h2 class="h6">Mô tả sản phẩm</h2>
+            <div class="border rounded p-3">
+                @Html.Raw(Model.Description)
+            </div>
+        </section>
+    }
+
+    @if (Model.Related != null && Model.Related.Any())
+    {
+        <section class="mt-5">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h6 m-0">Sản phẩm liên quan</h2>
+                <a class="link-secondary" href="@Url.Action("Index","Products", new { categoryId = Model.CategoryId })">Xem tất cả</a>
+            </div>
+
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+                @foreach (var r in Model.Related)
+                {
+                    <div class="col">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="@Url.Content(r.MainImage ?? "~/Content/images/no-image.png")" alt="@r.Name" />
+                            <div class="card-body">
+                                <h3 class="h6 card-title text-truncate" title="@r.Name">@r.Name</h3>
+                                @if (r.DiscountPrice.HasValue && r.DiscountPrice > 0)
+                                {
+                                    <div class="text-danger fw-bold">@String.Format("{0:0,0} ₫", r.DiscountPrice)</div>
+                                    <small class="text-muted text-decoration-line-through">
+                                        @String.Format("{0:0,0} ₫", r.Price)
+                                    </small>
+                                }
+                                else
+                                {
+                                    <div>@String.Format("{0:0,0} ₫", r.Price)</div>
+                                }
+                                <a class="btn btn-outline-primary btn-sm mt-2"
+                                   href="@Url.Action("Details","Products", new { id = r.Id })">Xem chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+</div>
+
+@section scripts{
+    <script>
+    document.querySelectorAll('.thumb-link').forEach(function (el) {
+        el.addEventListener('click', function () {
+            var src = this.getAttribute('data-img');
+            var main = document.getElementById('mainImage');
+            if (src && main) main.setAttribute('src', src);
+        });
+    });
+    </script>
+
+
+}

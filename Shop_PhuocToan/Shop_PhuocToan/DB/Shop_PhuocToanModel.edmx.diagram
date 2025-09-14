@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="276c6fcbd86a4a368f86117c7522d449" Name="Diagram1">
+        <EntityTypeShape EntityType="Shop_PhuocToanModel.Categories" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Shop_PhuocToanModel.OrderDetails" Width="1.5" PointX="7.5" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Shop_PhuocToanModel.Orders" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Shop_PhuocToanModel.ProductAttributes" Width="1.5" PointX="10.5" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="Shop_PhuocToanModel.ProductImages" Width="1.5" PointX="7.5" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="Shop_PhuocToanModel.Products" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Shop_PhuocToanModel.ProductStatus" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Shop_PhuocToanModel.Staff" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Shop_PhuocToanModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="11.125" IsExpanded="true" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_Categories_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_Categories_Parent" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_Categories_UpdatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_Products_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_OrderDetails_Orders" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_OrderDetails_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_ProductAttributes_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_ProductAttributes_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_ProductAttributes_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_ProductAttributes_UpdatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_ProductImages_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_ProductImages_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_ProductImages_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_ProductImages_UpdatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_Products_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_Products_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_Products_ProductStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="Shop_PhuocToanModel.FK_Products_UpdatedBy" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

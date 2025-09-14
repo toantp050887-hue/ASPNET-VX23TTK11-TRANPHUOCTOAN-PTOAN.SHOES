@@ -1,0 +1,143 @@
+﻿@model Shop_PhuocToan.Areas.Admin.Models.CategoryIndexVM
+@{
+    ViewBag.Title = "Danh mục sản phẩm";
+    var q = Model.Q ?? "";
+    var parentId = Model.ParentId;
+    var totalPages = (int)Math.Ceiling(Model.Total / (double)Model.PageSize);
+    if (totalPages < 1) { totalPages = 1; }
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Danh mục sản phẩm</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        @using (Html.BeginForm("Index", "CategoriesAdmin", FormMethod.Get, new { @class = "form-inline" }))
+        {
+            @*<div class="form-group">
+                <label for="q">Từ khóa</label>
+                <input type="text" name="q" id="q" value="@q" class="form-control" placeholder="Tên / Mã / Slug" style="min-width:220px" />
+            </div>
+            <div class="form-group" style="margin-left:8px;">
+                <label for="parentId">Danh mục cha</label>
+                @Html.DropDownList("parentId", (IEnumerable<SelectListItem>)Model.Parents, new { @class = "form-control", id = "parentId" })
+            </div>
+            <button type="submit" class="btn btn-default" style="margin-left:8px;">Lọc</button>*@
+            @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-primary", style = "margin-left:8px;" })
+        }
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width:70px;">ID</th>
+                <th style="width:140px;">Mã</th>
+                <th>Tên</th>
+                <th>Danh mục cha</th>
+                <th>Slug</th>
+                <th style="width:110px;">Kích hoạt</th>
+                <th style="width:150px;">Tạo / Cập nhật</th>
+                <th style="width:160px;">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Items == null || !Model.Items.Any())
+            {
+                <tr><td colspan="8" class="text-center text-muted">Không có dữ liệu</td></tr>
+            }
+            else
+            {
+                foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Code</td>
+                        <td>@item.Name</td>
+                        <td>@(string.IsNullOrEmpty(item.ParentName) ? "—" : item.ParentName)</td>
+                        <td>@item.Slug</td>
+                        <td>
+                            <span class="label @(item.IsActive ? "label-success" : "label-default")" id="status-@item.Id">
+                                @(item.IsActive ? "Đang bật" : "Đang tắt")
+                            </span>
+                            <button type="button" class="btn btn-xs btn-link toggle-active" data-id="@item.Id">[đổi]</button>
+                        </td>
+                        <td>
+                            @(item.Created?.ToString("dd/MM/yyyy HH:mm"))<br />
+                            <span class="text-muted">@(item.Updated?.ToString("dd/MM/yyyy HH:mm"))</span>
+                        </td>
+                        <td>
+                            @Html.ActionLink("Sửa", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-warning" })
+                            @using (Html.BeginForm("Delete", "CategoriesAdmin", FormMethod.Post, new { onsubmit = "return confirm('Xóa danh mục này?');", style = "display:inline-block;margin-left:4px;" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("id", item.Id)
+                                <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<nav aria-label="pagination">
+    <ul class="pagination">
+        @{
+            Func<int, string> urlFor = p => Url.Action("Index", new { q = q, parentId = parentId, page = p, pageSize = Model.PageSize });
+            var current = Model.Page < 1 ? 1 : Model.Page;
+            if (current > totalPages) { current = totalPages; }
+        }
+        <li class="@(current <= 1 ? "disabled" : "")"><a href="@(current <= 1 ? "#" : urlFor(current - 1))">&laquo;</a></li>
+        @for (int p = 1; p <= totalPages; p++)
+        {
+            <li class="@(p == current ? "active" : "")"><a href="@urlFor(p)">@p</a></li>
+        }
+        <li class="@(current >= totalPages ? "disabled" : "")"><a href="@(current >= totalPages ? "#" : urlFor(current + 1))">&raquo;</a></li>
+    </ul>
+</nav>
+
+@section Scripts {
+    <script>
+        (function () {
+            function postToggle(id) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "@Url.Action("ToggleActive","CategoriesAdmin")", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        try {
+                            var res = JSON.parse(xhr.responseText);
+                            if (res.ok) {
+                                var badge = document.getElementById("status-" + id);
+                                if (badge) {
+                                    if (res.isActive) {
+                                        badge.className = "label label-success";
+                                        badge.textContent = "Đang bật";
+                                    } else {
+                                        badge.className = "label label-default";
+                                        badge.textContent = "Đang tắt";
+                                    }
+                                }
+                            }
+                        } catch (e) {}
+                    }
+                };
+                xhr.send("id=" + encodeURIComponent(id));
+            }
+            Array.prototype.forEach.call(document.querySelectorAll(".toggle-active"), function (btn) {
+                btn.addEventListener("click", function () {
+                    var id = this.getAttribute("data-id");
+                    postToggle(id);
+                });
+            });
+        })();
+    </script>
+}

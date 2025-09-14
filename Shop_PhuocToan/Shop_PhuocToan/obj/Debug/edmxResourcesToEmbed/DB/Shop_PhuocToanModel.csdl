@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Shop_PhuocToanModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Slug" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="Updated" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Staff" Relationship="Self.FK_Categories_CreatedBy" FromRole="Categories" ToRole="Staff" />
+    <NavigationProperty Name="Categories1" Relationship="Self.FK_Categories_Parent" FromRole="Categories" ToRole="Categories1" />
+    <NavigationProperty Name="Categories2" Relationship="Self.FK_Categories_Parent" FromRole="Categories1" ToRole="Categories" />
+    <NavigationProperty Name="Staff1" Relationship="Self.FK_Categories_UpdatedBy" FromRole="Categories" ToRole="Staff" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Products_Categories" FromRole="Categories" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="OrderDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="15" Scale="2" Nullable="false" />
+    <Property Name="Discount" Type="Double" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_OrderDetails_Orders" FromRole="OrderDetails" ToRole="Orders" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_OrderDetails_Products" FromRole="OrderDetails" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CustomerName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="PostCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Language" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Orders" FromRole="Orders" ToRole="OrderDetails" />
+  </EntityType>
+  <EntityType Name="ProductAttributes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AttributeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="AttributeValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="Updated" Type="DateTime" Precision="3" />
+    <Property Name="Deleted" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Staff" Relationship="Self.FK_ProductAttributes_CreatedBy" FromRole="ProductAttributes" ToRole="Staff" />
+    <NavigationProperty Name="Staff1" Relationship="Self.FK_ProductAttributes_DeletedBy" FromRole="ProductAttributes" ToRole="Staff" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_ProductAttributes_Products" FromRole="ProductAttributes" ToRole="Products" />
+    <NavigationProperty Name="Staff2" Relationship="Self.FK_ProductAttributes_UpdatedBy" FromRole="ProductAttributes" ToRole="Staff" />
+  </EntityType>
+  <EntityType Name="ProductImages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ImageURL" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsMain" Type="Boolean" Nullable="false" />
+    <Property Name="AltText" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="Updated" Type="DateTime" Precision="3" />
+    <Property Name="Deleted" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Staff" Relationship="Self.FK_ProductImages_CreatedBy" FromRole="ProductImages" ToRole="Staff" />
+    <NavigationProperty Name="Staff1" Relationship="Self.FK_ProductImages_DeletedBy" FromRole="ProductImages" ToRole="Staff" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_ProductImages_Products" FromRole="ProductImages" ToRole="Products" />
+    <NavigationProperty Name="Staff2" Relationship="Self.FK_ProductImages_UpdatedBy" FromRole="ProductImages" ToRole="Staff" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Slug" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+    <Property Name="OriginalPrice" Type="Decimal" Precision="15" Scale="2" />
+    <Property Name="Price" Type="Decimal" Precision="15" Scale="2" />
+    <Property Name="DiscountPrice" Type="Decimal" Precision="15" Scale="2" />
+    <Property Name="Discount" Type="Double" />
+    <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="Updated" Type="DateTime" Precision="3" />
+    <Property Name="Deleted" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="IsContact" Type="Boolean" />
+    <NavigationProperty Name="Categories" Relationship="Self.FK_Products_Categories" FromRole="Products" ToRole="Categories" />
+    <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Products" FromRole="Products" ToRole="OrderDetails" />
+    <NavigationProperty Name="ProductAttributes" Relationship="Self.FK_ProductAttributes_Products" FromRole="Products" ToRole="ProductAttributes" />
+    <NavigationProperty Name="ProductImages" Relationship="Self.FK_ProductImages_Products" FromRole="Products" ToRole="ProductImages" />
+    <NavigationProperty Name="Staff" Relationship="Self.FK_Products_CreatedBy" FromRole="Products" ToRole="Staff" />
+    <NavigationProperty Name="Staff1" Relationship="Self.FK_Products_DeletedBy" FromRole="Products" ToRole="Staff" />
+    <NavigationProperty Name="ProductStatus" Relationship="Self.FK_Products_ProductStatus" FromRole="Products" ToRole="ProductStatus" />
+    <NavigationProperty Name="Staff2" Relationship="Self.FK_Products_UpdatedBy" FromRole="Products" ToRole="Staff" />
+  </EntityType>
+  <EntityType Name="ProductStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Products_ProductStatus" FromRole="ProductStatus" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Staff">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StaffId" Type="Int32" />
+    <Property Name="GuidId" Type="Guid" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="FullName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="UnitCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UnitName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="Activated" Type="DateTime" Precision="3" />
+    <Property Name="ActiveBy" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="Int32" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Avatar" Type="String" MaxLength="2250" FixedLength="false" Unicode="true" />
+    <Property Name="PermissionType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Categories" Relationship="Self.FK_Categories_CreatedBy" FromRole="Staff" ToRole="Categories" />
+    <NavigationProperty Name="Categories1" Relationship="Self.FK_Categories_UpdatedBy" FromRole="Staff" ToRole="Categories" />
+    <NavigationProperty Name="ProductAttributes" Relationship="Self.FK_ProductAttributes_CreatedBy" FromRole="Staff" ToRole="ProductAttributes" />
+    <NavigationProperty Name="ProductAttributes1" Relationship="Self.FK_ProductAttributes_DeletedBy" FromRole="Staff" ToRole="ProductAttributes" />
+    <NavigationProperty Name="ProductAttributes2" Relationship="Self.FK_ProductAttributes_UpdatedBy" FromRole="Staff" ToRole="ProductAttributes" />
+    <NavigationProperty Name="ProductImages" Relationship="Self.FK_ProductImages_CreatedBy" FromRole="Staff" ToRole="ProductImages" />
+    <NavigationProperty Name="ProductImages1" Relationship="Self.FK_ProductImages_DeletedBy" FromRole="Staff" ToRole="ProductImages" />
+    <NavigationProperty Name="ProductImages2" Relationship="Self.FK_ProductImages_UpdatedBy" FromRole="Staff" ToRole="ProductImages" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Products_CreatedBy" FromRole="Staff" ToRole="Products" />
+    <NavigationProperty Name="Products1" Relationship="Self.FK_Products_DeletedBy" FromRole="Staff" ToRole="Products" />
+    <NavigationProperty Name="Products2" Relationship="Self.FK_Products_UpdatedBy" FromRole="Staff" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Categories_CreatedBy">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="Categories" Type="Self.Categories" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_Categories_Parent">
+    <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+    <End Role="Categories1" Type="Self.Categories" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_Categories_UpdatedBy">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="Categories" Type="Self.Categories" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_Products_Categories">
+    <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+    <End Role="Products" Type="Self.Products" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_OrderDetails_Orders">
+    <End Role="Orders" Type="Self.Orders" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_OrderDetails_Products">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_ProductAttributes_CreatedBy">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="ProductAttributes" Type="Self.ProductAttributes" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_ProductAttributes_DeletedBy">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="ProductAttributes" Type="Self.ProductAttributes" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_ProductAttributes_Products">
+    <End Role="Products" Type="Self.Products" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProductAttributes" Type="Self.ProductAttributes" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_ProductAttributes_UpdatedBy">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="ProductAttributes" Type="Self.ProductAttributes" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_ProductImages_CreatedBy">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_ProductImages_DeletedBy">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_ProductImages_Products">
+    <End Role="Products" Type="Self.Products" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_ProductImages_UpdatedBy">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_Products_CreatedBy">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="Products" Type="Self.Products" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_Products_DeletedBy">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="Products" Type="Self.Products" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_Products_ProductStatus">
+    <End Role="ProductStatus" Type="Self.ProductStatus" Multiplicity="1" />
+    <End Role="Products" Type="Self.Products" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_Products_UpdatedBy">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="Products" Type="Self.Products" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="Shop_PhuocToanEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Categories" />
+    <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" />
+    <EntitySet Name="Orders" EntityType="Self.Orders" />
+    <EntitySet Name="ProductAttributes" EntityType="Self.ProductAttributes" />
+    <EntitySet Name="ProductImages" EntityType="Self.ProductImages" />
+    <EntitySet Name="Products" EntityType="Self.Products" />
+    <EntitySet Name="ProductStatus" EntityType="Self.ProductStatus" />
+    <EntitySet Name="Staff" EntityType="Self.Staff" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <AssociationSet Name="FK_Categories_CreatedBy" Association="Self.FK_Categories_CreatedBy">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="Categories" EntitySet="Categories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Categories_Parent" Association="Self.FK_Categories_Parent">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Categories1" EntitySet="Categories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Categories_UpdatedBy" Association="Self.FK_Categories_UpdatedBy">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="Categories" EntitySet="Categories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_Categories" Association="Self.FK_Products_Categories">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetails_Orders" Association="Self.FK_OrderDetails_Orders">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetails_Products" Association="Self.FK_OrderDetails_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductAttributes_CreatedBy" Association="Self.FK_ProductAttributes_CreatedBy">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="ProductAttributes" EntitySet="ProductAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductAttributes_DeletedBy" Association="Self.FK_ProductAttributes_DeletedBy">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="ProductAttributes" EntitySet="ProductAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductAttributes_Products" Association="Self.FK_ProductAttributes_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductAttributes" EntitySet="ProductAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductAttributes_UpdatedBy" Association="Self.FK_ProductAttributes_UpdatedBy">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="ProductAttributes" EntitySet="ProductAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductImages_CreatedBy" Association="Self.FK_ProductImages_CreatedBy">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="ProductImages" EntitySet="ProductImages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductImages_DeletedBy" Association="Self.FK_ProductImages_DeletedBy">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="ProductImages" EntitySet="ProductImages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductImages_Products" Association="Self.FK_ProductImages_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductImages" EntitySet="ProductImages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductImages_UpdatedBy" Association="Self.FK_ProductImages_UpdatedBy">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="ProductImages" EntitySet="ProductImages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_CreatedBy" Association="Self.FK_Products_CreatedBy">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_DeletedBy" Association="Self.FK_Products_DeletedBy">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_ProductStatus" Association="Self.FK_Products_ProductStatus">
+      <End Role="ProductStatus" EntitySet="ProductStatus" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_UpdatedBy" Association="Self.FK_Products_UpdatedBy">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

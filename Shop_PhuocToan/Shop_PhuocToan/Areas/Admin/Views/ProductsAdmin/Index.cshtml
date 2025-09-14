@@ -1,0 +1,124 @@
+﻿@model ProductIndexVM
+@{
+    ViewBag.Title = "Quản lý sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section page_header{
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h1 class="h5 m-0">Quản lý sản phẩm</h1>
+      
+    </div>
+}
+<div>
+    @Html.ActionLink("Thêm sản phẩm", "Create", null, new { @class = "btn btn-primary" })
+
+</div>
+<div class="card mb-3">
+    <div class="card-body">
+        @using (Html.BeginForm("Index", "ProductsAdmin", FormMethod.Get, new { area = "Admin", @class = "row g-2 align-items-end" }))
+        {
+            <div class="col-12 col-md-6">
+                <label for="q" class="form-label">Từ khóa</label>
+                <input id="q" name="q" type="text" value="@Model.Q" class="form-control" placeholder="Tên hoặc mã sản phẩm..." />
+            </div>
+            <div class="col-12 col-md-4">
+                <label for="categoryId" class="form-label">Chủng loại</label>
+                @Html.DropDownList("categoryId",
+                    Model.Categories ?? Enumerable.Empty<SelectListItem>(),
+                    new { @class = "form-select", @id = "categoryId" })
+            </div>
+            <div class="col-12 col-md-2">
+                <button type="submit" class="btn btn-outline-primary w-100">Lọc</button>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th style="width:64px;">Ảnh</th>
+                <th>Tên sản phẩm</th>
+                <th>Mã</th>
+                <th>Chủng loại</th>
+                <th class="text-end">Giá</th>
+                <th class="text-end">Giá KM</th>
+                <th>Liên hệ</th>
+                <th>Cập nhật</th>
+                <th style="width:160px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Items != null && Model.Items.Any())
+            {
+                foreach (var it in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            <img src="@it.MainImage" 
+                                 alt="@it.Name" style="width:48px;height:48px;object-fit:cover;border-radius:6px;" />
+                        </td>
+                        <td>@it.Name</td>
+                        <td><span class="text-muted">@it.ProductCode</span></td>
+                        <td>@it.CategoryName</td>
+                        <td class="text-end">@String.Format("{0:0,0}", it.Price)</td>
+                        <td class="text-end text-danger fw-semibold">
+                            @(it.DiscountPrice.HasValue && it.DiscountPrice > 0 ? it.DiscountPrice.Value.ToString("0,0") : "")
+                        </td>
+                        <td>@(it.IsContact == true ? "Liên hệ" : "")</td>
+                        <td>
+                            @((it.Updated ?? it.Created)?.ToString("dd/MM/yyyy HH:mm"))
+                        </td>
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm">
+                                @Html.ActionLink("Sửa", "Edit", new { id = it.Id }, new { @class = "btn btn-sm btn-warning" })
+                                <a class="btn btn-outline-secondary" href="../../Products/Details/@it.Id">Xem</a>
+                                <a class="btn btn-outline-danger" href="@Url.Action("Delete","ProductsAdmin", new { area="Admin", id = it.Id })"
+                                   onclick="return confirm('Xóa sản phẩm này?');">Xóa</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="9" class="text-center text-muted">Không có dữ liệu.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@{
+    var totalPages = (int)Math.Ceiling(Model.Total / (double)Model.PageSize);
+    if (totalPages < 1) { totalPages = 1; }
+    int current = Model.Page;
+    int start = Math.Max(1, current - 2);
+    int end = Math.Min(totalPages, current + 2);
+}
+
+@if (totalPages > 1)
+{
+    <nav aria-label="Pagination" class="mt-3">
+        <ul class="pagination">
+            <li class="page-item @(current == 1 ? "disabled" : "")">
+                <a class="page-link"
+                   href="@Url.Action("Index", new { area="Admin", q = Model.Q, categoryId = Model.CategoryId, page = current - 1, pageSize = Model.PageSize })">Trước</a>
+            </li>
+
+            @for (int i = start; i <= end; i++)
+            {
+                <li class="page-item @(i == current ? "active" : "")">
+                    <a class="page-link"
+                       href="@Url.Action("Index", new { area="Admin", q = Model.Q, categoryId = Model.CategoryId, page = i, pageSize = Model.PageSize })">@i</a>
+                </li>
+            }
+
+            <li class="page-item @(current == totalPages ? "disabled" : "")">
+                <a class="page-link"
+                   href="@Url.Action("Index", new { area="Admin", q = Model.Q, categoryId = Model.CategoryId, page = current + 1, pageSize = Model.PageSize })">Sau</a>
+            </li>
+        </ul>
+    </nav>
+}
