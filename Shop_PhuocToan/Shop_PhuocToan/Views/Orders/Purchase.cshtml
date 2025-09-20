@@ -1,0 +1,79 @@
+﻿@model Shop_PhuocToan.Controllers.PurchaseViewModel
+@{
+    ViewBag.Title = "Thanh toán";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var cart = ViewBag.Cart as System.Collections.Generic.List<Shop_PhuocToan.Controllers.CartItem>;
+    var total = cart != null ? cart.Sum(x => x.LineTotal) : 0M;
+}
+
+<h2>Thanh toán</h2>
+
+@if (cart == null || !cart.Any())
+{
+    <div class="alert alert-info">Giỏ hàng trống. <a href="@Url.Action("Index","Products")">Tiếp tục mua sắm</a></div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Thông tin khách hàng</h4>
+            @using (Html.BeginForm("Purchase", "Orders", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CustomerName)
+                    @Html.TextBoxFor(m => m.CustomerName, new { @class="form-control", placeholder="Họ và tên" })
+                    @Html.ValidationMessageFor(m => m.CustomerName, "", new { @class="text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Phone)
+                    @Html.TextBoxFor(m => m.Phone, new { @class="form-control", placeholder="Số điện thoại" })
+                    @Html.ValidationMessageFor(m => m.Phone, "", new { @class="text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email)
+                    @Html.TextBoxFor(m => m.Email, new { @class="form-control", placeholder="Email" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class="text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Address)
+                    @Html.TextBoxFor(m => m.Address, new { @class="form-control", placeholder="Địa chỉ nhận hàng" })
+                    @Html.ValidationMessageFor(m => m.Address, "", new { @class="text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PostCode)
+                    @Html.TextBoxFor(m => m.PostCode, new { @class="form-control", placeholder="Mã bưu chính (nếu có)" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Note)
+                    @Html.TextAreaFor(m => m.Note, 3, 40, new { @class="form-control", placeholder="Ghi chú đơn hàng" })
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg">Đặt hàng</button>
+                    <a href="@Url.Action("Index","Orders")" class="btn btn-default">Quay lại giỏ hàng</a>
+                </div>
+            }
+        </div>
+        <div class="col-md-6">
+            <h4>Đơn hàng của bạn</h4>
+            <ul class="list-group">
+                @foreach (var item in cart)
+                {
+                    <li class="list-group-item">
+                        <span>@item.Name</span>
+                        <span class="pull-right">@item.Quantity x @String.Format("{0:N0}₫", item.Price) = <strong>@String.Format("{0:N0}₫", item.LineTotal)</strong></span>
+                    </li>
+                }
+                <li class="list-group-item active">
+                    <strong>Tổng cộng</strong>
+                    <span class="pull-right"><strong>@String.Format("{0:N0}₫", total)</strong></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

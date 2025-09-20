@@ -1,0 +1,87 @@
+﻿@model System.Collections.Generic.List<Shop_PhuocToan.Controllers.CartItem>
+@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var total = Model != null ? Model.Sum(x => x.LineTotal) : 0M;
+}
+
+<h2>Giỏ hàng</h2>
+
+@if (TempData["OrderSuccess"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["OrderSuccess"]
+    </div>
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">Giỏ hàng trống. <a href="@Url.Action("Index","Products")">Tiếp tục mua sắm</a></div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Ảnh</th>
+                    <th>Sản phẩm</th>
+                    <th style="width:130px">Đơn giá</th>
+                    <th style="width:120px">Số lượng</th>
+                    <th style="width:150px">Thành tiền</th>
+                    <th style="width:120px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="width:100px">
+                            @if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+                            {
+                                <img src="@item.ImageUrl" alt="@item.Name" style="max-width:90px;max-height:90px" />
+                            }
+                        </td>
+                        <td>@item.Name</td>
+                        <td>@String.Format("{0:N0}₫", item.Price)</td>
+                        <td>
+                            @using (Html.BeginForm("UpdateQuantity", "Orders", FormMethod.Post, new { @class = "form-inline" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("productId", item.ProductId)
+                                <input type="number" name="quantity" min="1" value="@item.Quantity" class="form-control" style="width:80px" />
+                                <button type="submit" class="btn btn-sm btn-default" style="margin-left:6px">Cập nhật</button>
+                            }
+                        </td>
+                        <td>@String.Format("{0:N0}₫", item.LineTotal)</td>
+                        <td>
+                            @using (Html.BeginForm("RemoveItem", "Orders", FormMethod.Post, new { @class = "form-inline", onsubmit="return confirm('Xóa sản phẩm này khỏi giỏ?');" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("productId", item.ProductId)
+                                <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+                            }
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="4" class="text-right"><strong>Tổng cộng:</strong></td>
+                    <td colspan="2"><strong>@String.Format("{0:N0}₫", total)</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            @using (Html.BeginForm("ClearCart", "Orders", FormMethod.Post, new { onsubmit="return confirm('Xóa toàn bộ giỏ hàng?');" }))
+            {
+                @Html.AntiForgeryToken()
+                <button class="btn btn-link text-danger">Xóa giỏ hàng</button>
+            }
+        </div>
+        <div class="col-md-6 text-right">
+            <a href="@Url.Action("Purchase","Orders")" class="btn btn-success btn-lg">Tiến hành thanh toán</a>
+        </div>
+    </div>
+}

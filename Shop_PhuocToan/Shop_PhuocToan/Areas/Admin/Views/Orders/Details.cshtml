@@ -1,0 +1,102 @@
+﻿@model Shop_PhuocToan.Areas.Admin.Controllers.AdminOrderDetailsViewModel
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    Func<int?, string> statusText = s =>
+    {
+        switch (s ?? 0) {
+            case 0: return "Mới tạo";
+            case 1: return "Đã xác nhận";
+            case 2: return "Đang giao";
+            case 3: return "Hoàn tất";
+            case 4: return "Hủy";
+            default: return "N/A";
+        }
+    };
+}
+
+<h2>Đơn hàng @Model.OrderCode</h2>
+
+@if (TempData["AdminInfo"] != null)
+{
+    <div class="alert alert-success">@TempData["AdminInfo"]</div>
+}
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="panel panel-default">
+            <div class="panel-heading">Thông tin khách hàng</div>
+            <table class="table">
+                <tr><th>Khách hàng</th><td>@Model.CustomerName</td></tr>
+                <tr><th>SĐT</th><td>@Model.Phone</td></tr>
+                <tr><th>Email</th><td>@Model.Email</td></tr>
+                <tr><th>Địa chỉ</th><td>@Model.Address</td></tr>
+                <tr><th>Mã bưu chính</th><td>@Model.PostCode</td></tr>
+                <tr><th>Ghi chú</th><td>@Model.Note</td></tr>
+                <tr><th>Ngôn ngữ</th><td>@Model.Language</td></tr>
+                <tr><th>Ngày tạo</th><td>@(Model.CreateDate.HasValue? Model.CreateDate.Value.ToString("dd/MM/yyyy HH:mm") : "")</td></tr>
+                <tr><th>Ngày cập nhật</th><td>@(Model.UpdateDate.HasValue? Model.UpdateDate.Value.ToString("dd/MM/yyyy HH:mm") : "")</td></tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">Trạng thái</div>
+            <div class="panel-body">
+                <strong>@statusText(Model.Status)</strong>
+                <hr />
+                @using (Html.BeginForm("ChangeStatus", "Orders", new { area="Admin" }, FormMethod.Post, new { @class = "form-inline" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("id", Model.OrderId)
+                    @Html.DropDownList("status", (IEnumerable<SelectListItem>)ViewBag.StatusList, new { @class="form-control" })
+                    <button class="btn btn-primary" style="margin-left:6px">Cập nhật</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Sản phẩm</div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Mã</th>
+                    <th>Tên sản phẩm</th>
+                    <th class="text-right" style="width:140px">Đơn giá</th>
+                    <th style="width:100px">SL</th>
+                    <th class="text-right" style="width:160px">Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var line in Model.Lines)
+                {
+                    <tr>
+                        <td>@line.ProductId</td>
+                        <td>@line.ProductName</td>
+                        <td class="text-right">@String.Format("{0:N0}₫", line.Price)</td>
+                        <td>@line.Quantity</td>
+                        <td class="text-right"><strong>@String.Format("{0:N0}₫", line.LineTotal)</strong></td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="4" class="text-right"><strong>Tổng cộng:</strong></td>
+                    <td class="text-right"><strong>@String.Format("{0:N0}₫", Model.Total)</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<p>
+    <a class="btn btn-default" href="@Url.Action("Index","Orders", new { area="Admin" })">Quay lại danh sách</a>
+
+    @using (Html.BeginForm("Delete", "Orders", new { area="Admin" }, FormMethod.Post, new { style="display:inline", onsubmit="return confirm('Xóa đơn hàng?');" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("id", Model.OrderId)
+        <button class="btn btn-danger">Xóa</button>
+    }
+</p>

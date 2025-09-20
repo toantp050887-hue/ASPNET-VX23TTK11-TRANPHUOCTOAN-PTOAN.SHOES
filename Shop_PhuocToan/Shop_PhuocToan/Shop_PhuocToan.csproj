@@ -136,6 +136,7 @@
     <Compile Include="Areas\Admin\Models\LoginViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ProductsAdminModels.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="DB\Categories.cs">
       <DependentUpon>Shop_PhuocToanModel.tt</DependentUpon>
@@ -244,6 +245,7 @@
     <Content Include="DB\Shop_PhuocToanModel.edmx.diagram">
       <DependentUpon>Shop_PhuocToanModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\Orders\Details.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -273,6 +275,9 @@
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Products\_ProductGrid.cshtml" />
     <Content Include="Views\Products\Details.cshtml" />
+    <Content Include="Views\Orders\Details.cshtml" />
+    <Content Include="Views\Orders\Index.cshtml" />
+    <Content Include="Views\Orders\Purchase.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

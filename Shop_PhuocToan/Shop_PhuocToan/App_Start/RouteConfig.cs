@@ -12,11 +12,16 @@ namespace Shop_PhuocToan
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            routes.MapRoute(
+
+            var route = routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "Shop_PhuocToan.Controllers" }   // <-- khóa namespace frontend
             );
+            // NGĂN fallback sang namespace khác (vd: Areas.Admin)
+            route.DataTokens = route.DataTokens ?? new RouteValueDictionary();
+            route.DataTokens["UseNamespaceFallback"] = false;
         }
     }
 }

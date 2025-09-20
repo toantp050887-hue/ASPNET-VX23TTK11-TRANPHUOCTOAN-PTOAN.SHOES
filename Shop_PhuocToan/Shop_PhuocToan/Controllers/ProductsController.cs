@@ -38,6 +38,8 @@ namespace Shop_PhuocToan.Controllers
                 {
                     value = casted;
                     return true;
+
+
                 }
 
                 // Sai kiểu dữ liệu -> bỏ
@@ -92,7 +94,7 @@ namespace Shop_PhuocToan.Controllers
                                .Where(c => c.IsActive)
                                .OrderBy(c => c.Name)
                                .Select(c => new { c.Id, c.Name })
-                               .ToList()
+                               .ToList()                         
                                .Select(c => new SelectListItem
                                {
                                    Value = c.Id.ToString(),
@@ -105,7 +107,7 @@ namespace Shop_PhuocToan.Controllers
             {
                 categories.Insert(0, new SelectListItem { Value = "", Text = "Tất cả danh mục", Selected = !categoryId.HasValue });
             }
-
+    
             var query = db.Products.Include("Categories")
                           .Where(p => p.IsDeleted == null || p.IsDeleted == false);
 
@@ -201,7 +203,7 @@ namespace Shop_PhuocToan.Controllers
                       .FirstOrDefault();
             if (p == null) return HttpNotFound();
 
-
+      
             var images = db.ProductImages.Include("Products")
                            .Where(i => i.Products.Id == p.Id)
                            .OrderByDescending(i => i.IsMain)
@@ -209,7 +211,7 @@ namespace Shop_PhuocToan.Controllers
                            .Select(i => i.ImageURL)
                            .ToList();
 
-
+        
             var attrs = db.ProductAttributes
                           .Where(a => a.Id == p.Id && a.Deleted == null)
                           .OrderBy(a => a.AttributeName)
@@ -221,7 +223,7 @@ namespace Shop_PhuocToan.Controllers
 
             var cat = db.Categories.Where(c => c.Id == p.Categories.Id).Select(c => new { c.Id, c.Name, c.Slug }).FirstOrDefault();
 
-
+         
             decimal? finalPrice = null;
             if (p.DiscountPrice.HasValue && p.DiscountPrice > 0)
                 finalPrice = p.DiscountPrice;
@@ -230,7 +232,7 @@ namespace Shop_PhuocToan.Controllers
             else
                 finalPrice = p.Price;
 
-
+            
             var related = db.Products
                             .Where(x => x.Id != p.Id
                                      && (x.IsDeleted == null || x.IsDeleted == false)
@@ -276,7 +278,7 @@ namespace Shop_PhuocToan.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddToCart(int id, int qty = 1)
         {
-
+     
             TempData["CartMessage"] = "Đã thêm sản phẩm vào giỏ.";
             return RedirectToAction("Details", new { id });
         }

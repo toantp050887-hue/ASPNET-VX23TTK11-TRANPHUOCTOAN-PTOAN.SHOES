@@ -1,9 +1,110 @@
-﻿@{
-    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+﻿@model Shop_PhuocToan.Areas.Admin.Controllers.AdminOrderIndexViewModel
+@{
     ViewBag.Title = "Quản lý đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    Func<int?, string> statusText = s =>
+    {
+        switch (s ?? 0) {
+            case 0: return "Mới tạo";
+            case 1: return "Đã xác nhận";
+            case 2: return "Đang giao";
+            case 3: return "Hoàn tất";
+            case 4: return "Hủy";
+            default: return "N/A";
+        }
+    };
 }
-@section page_header{
-    <div class="d-flex align-items-center justify-content-between mb-3">
-        <h1 class="h5 m-0">Quản lý đơn hàng</h1>
+
+<h2>Đơn hàng</h2>
+
+@if (TempData["AdminInfo"] != null)
+{
+    <div class="alert alert-success">@TempData["AdminInfo"]</div>
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">Bộ lọc</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("Index", "Orders", FormMethod.Get, new { area = "Admin", @class = "form-inline" }))
+        {
+            <input type="text" name="q" value="@Model.Q" class="form-control" placeholder="Mã đơn / Tên / SĐT / Email" style="min-width:260px" />
+            @Html.DropDownList("status", (IEnumerable<SelectListItem>)ViewBag.StatusList, "Tất cả trạng thái", new { @class="form-control", style="margin-left:6px" })
+            <input type="date" name="from" value="@(Model.From.HasValue? Model.From.Value.ToString("yyyy-MM-dd") : null)" class="form-control" style="margin-left:6px" />
+            <input type="date" name="to" value="@(Model.To.HasValue? Model.To.Value.ToString("yyyy-MM-dd") : null)" class="form-control" style="margin-left:6px" />
+            <button class="btn btn-primary" style="margin-left:6px">Lọc</button>
+            <a href="@Url.Action("Index", "Orders", new { area="Admin" })" class="btn btn-default" style="margin-left:6px">Reset</a>
+        }
     </div>
+</div>
+
+@if (Model.Items == null || !Model.Items.Any())
+{
+    <div class="alert alert-info">Không có dữ liệu.</div>
+}
+else
+{
+    var totalPages = (int)Math.Ceiling((double)Model.TotalRows / Model.PageSize);
+    if (totalPages < 1) { totalPages = 1; }
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Mã đơn</th>
+                    <th>Khách hàng</th>
+                    <th>SĐT</th>
+                    <th>Email</th>
+                    <th>Ngày tạo</th>
+                    <th>Trạng thái</th>
+                    <th class="text-right">Tổng</th>
+                    <th style="width:170px"></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var o in Model.Items)
+            {
+                <tr>
+                    <td>@o.OrderCode</td>
+                    <td>@o.CustomerName</td>
+                    <td>@o.Phone</td>
+                    <td>@o.Email</td>
+                    <td>@(o.CreateDate.HasValue? o.CreateDate.Value.ToString("dd/MM/yyyy HH:mm") : "")</td>
+                    <td>@statusText(o.Status)</td>
+                    <td class="text-right">@String.Format("{0:N0}₫", o.Total)</td>
+                    <td>
+                        <a class="btn btn-xs btn-info" href="@Url.Action("Details", "Orders", new { area="Admin", id=o.Id })">Xem</a>
+
+                        @using (Html.BeginForm("Delete", "Orders", new { area="Admin" }, FormMethod.Post, new { style="display:inline", onsubmit="return confirm('Xóa đơn hàng? Hành động này không thể hoàn tác.');" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("id", o.Id)
+                            <button class="btn btn-xs btn-danger">Xóa</button>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+
+    <nav aria-label="Page navigation" class="text-center">
+        <ul class="pagination">
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                var route = new {
+                    area = "Admin",
+                    q = Model.Q,
+                    status = Model.Status,
+                    from = Model.From.HasValue ? Model.From.Value.ToString("yyyy-MM-dd") : null,
+                    to = Model.To.HasValue ? Model.To.Value.ToString("yyyy-MM-dd") : null,
+                    page = i,
+                    pageSize = Model.PageSize
+                };
+                <li class="@(i == Model.Page ? "active" : "")">
+                    <a href="@Url.Action("Index","Orders", route)">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
 }

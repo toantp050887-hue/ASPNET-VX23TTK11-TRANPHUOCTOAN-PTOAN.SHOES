@@ -1,0 +1,85 @@
+﻿@model Shop_PhuocToan.DB.Products
+@{
+    ViewBag.Title = "Chi tiết sản phẩm - " + (Model != null ? Model.Name : "Sản phẩm");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Name</h2>
+
+<div class="product-detail">
+    <div class="row">
+        <div class="col-md-5">
+            @* Ảnh đại diện nếu có *@
+            @if (Model.ProductImages != null && Model.ProductImages.Any())
+            {
+                var mainImg = Model.ProductImages.FirstOrDefault(i => i.IsMain) ?? Model.ProductImages.First();
+                <img src="@mainImg.ImageURL" alt="@(!string.IsNullOrEmpty(mainImg.AltText)? mainImg.AltText : Model.Name)" class="img-responsive" />
+            }
+            else
+            {
+                <div class="alert alert-info">Chưa có hình ảnh cho sản phẩm.</div>
+            }
+        </div>
+        <div class="col-md-7">
+            <p class="lead">
+                @if (Model.DiscountPrice.HasValue)
+                {
+                    <span class="text-danger h3">@String.Format("{0:N0}₫", Model.DiscountPrice)</span>
+                    if (Model.Price.HasValue)
+                    {
+                        <del class="text-muted" style="margin-left:10px">@String.Format("{0:N0}₫", Model.Price)</del>
+                    }
+                }
+                else if (Model.Price.HasValue)
+                {
+                    <span class="h3">@String.Format("{0:N0}₫", Model.Price)</span>
+                }
+                else if (Model.OriginalPrice.HasValue)
+                {
+                    <span class="h3">@String.Format("{0:N0}₫", Model.OriginalPrice)</span>
+                }
+                else
+                {
+                    <span class="label label-default">Liên hệ để biết giá</span>
+                }
+            </p>
+
+            <div class="description">
+                @Html.Raw(Model.Description)
+            </div>
+
+            <hr />
+            <h4>Thêm vào giỏ hàng</h4>
+            @using (Html.BeginForm("AddToCart", "Orders", FormMethod.Post, new { @class = "form-inline" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("productId", Model.Id)
+
+                <div class="form-group">
+                    <label for="quantity">Số lượng</label>
+                    <input type="number" name="quantity" id="quantity" class="form-control" min="1" value="1" style="width:100px" />
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-left:10px">
+                    Thêm vào giỏ
+                </button>
+                <a href="@Url.Action("Index","Orders")" class="btn btn-default" style="margin-left:5px">Xem giỏ hàng</a>
+            }
+        </div>
+    </div>
+
+    <hr />
+    <h4>Thuộc tính</h4>
+    @if (Model.ProductAttributes != null && Model.ProductAttributes.Any())
+    {
+        <ul class="list-unstyled">
+            @foreach (var attr in Model.ProductAttributes)
+            {
+                <li><strong>@attr.AttributeName</strong>: @attr.AttributeValue</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p class="text-muted">Chưa có thuộc tính.</p>
+    }
+</div>
