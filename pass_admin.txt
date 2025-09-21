@@ -1,6 +1,7 @@
+Link ADMIN <http://localhost:50594/admin>
 User:  admin
 Pass : admin@123
 
 MAIL THẦY MR.MIỀN
   + email GitHub 
-  + antonio86doan@gamil.com
+  + antonio86doan@gmail.com
