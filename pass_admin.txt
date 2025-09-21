@@ -1,2 +1,6 @@
-User: admin
+User:  admin
 Pass : admin@123
+
+MAIL THẦY MR.MIỀN
+  + email GitHub 
+  + antonio86doan@gamil.com

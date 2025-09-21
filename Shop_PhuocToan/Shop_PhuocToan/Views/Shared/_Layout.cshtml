@@ -32,7 +32,7 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index","Home")" title="Trang chủ">
+            <a class="navbar-brand d-flex align-items-center" href="/" title="Trang chủ">
                 <img src="@Url.Content("~/Content/images/Logo-PhuocToan.png")" alt="Logo" style="height: 80px;"/>
                 <span class="ms-2 fw-semibold">Shop Giày Dép</span>
             </a>
@@ -45,13 +45,22 @@
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        @Html.ActionLink("Trang chủ", "Index", "Home", null, new { @class = "nav-link" })
+                        <a href="/" class="nav-link">Trang chủ</a>
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Sản phẩm", "Index", "Products", null, new { @class = "nav-link" })
+                        <a href="/Products?q=" class="nav-link">Sản phẩm</a>
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Admin", "Index", "Admin", null, new { @class = "nav-link" })
+                        <a href="/Products?q=&categoryId=6" class="nav-link">Giày Trẻ em</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Products?q=&categoryId=1" class="nav-link">Giày Sneaker Nam</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Products?q=&categoryId=2" class="nav-link">Giày Sneaker Nữ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Products?q=&categoryId=3" class="nav-link">Giày Chạy bộ</a>
                     </li>
                 </ul>
 
